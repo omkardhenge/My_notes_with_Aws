@@ -52,8 +52,7 @@ A full-stack cloud-native Notes application using:
 
 #### 📥 Clone Kotlin App from GitHub
 ```bash
-git clone https://github.com/omkardhenge/notes_app-master.git android-app
-cd android-app
+git clone https://github.com/omkardhenge/notes_app-master.git
 ```
 
 #### ⚙️ Configure API base URL
@@ -72,9 +71,9 @@ Use Retrofit to call backend APIs
 
 #### ✅ Environment Variables (`.env`)
 ```
-PORT=3000
-AWS_REGION=ap-south-1
-NOTES_TABLE=NotesTable
+PORT=YOUR_PORT
+AWS_REGION=YOUR_REGION
+NOTES_TABLE=YOUR_TABLE
 ```
 
 #### 📝 `index.js` Highlights
@@ -109,10 +108,10 @@ docker build -t aws-server-code .
 ### ▶️ Run Container Locally
 ```bash
 docker run -d \
-  -p 3000:3000 \
-  -e PORT=3000 \
-  -e AWS_REGION=ap-south-1 \
-  -e NOTES_TABLE=NotesTable \
+  -p PORT:PORT \
+  -e PORT=YOUR_PORT \
+  -e AWS_REGION=YOUR_REGION \
+  -e NOTES_TABLE=YOUR_TABLE \
   --name mynotes-container \
   aws-server-code
 ```
@@ -146,8 +145,9 @@ docker pull omkardhenge/aws-server-code
 
 # Create .env
 cat <<EOF > /home/ec2-user/.env
-AWS_REGION=ap-south-1
-NOTES_TABLE=NotesTable
+PORT=YOUR_PORT
+AWS_REGION=YOUR_REGION
+NOTES_TABLE=YOUR_TABLE 
 EOF
 
 # Run container
@@ -155,8 +155,8 @@ docker rm -f mynotes-container || true
 docker run -d \
   --restart=always \
   --env-file /home/ec2-user/.env \
-  -e PORT=3000 \
-  -p 3000:3000 \
+  -e PORT=YOUR_PORT \
+  -p PORT:PORT \
   --name mynotes-container \
   omkardhenge/aws-server-code
 ```
@@ -198,7 +198,7 @@ http://<ec2-public-ip>:3000/ping
 suspend fun saveNote(@Body note: NoteRequest): Response<Unit>
 
 @GET("/notes")
-suspend fun getNotes(@Query("userId") userId: String): Response<List<Note>>
+suspend fun getNotes() : Response<List<Notes>>
 ```
 
 ---
